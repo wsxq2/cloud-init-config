@@ -88,7 +88,7 @@ packages:
 - curl
 - gnupg2
 - lsb-release
-- ros-noetic-base
+- ros-noetic-ros-base
 - python3-rosdep
 - python3-rosinstall
 - python3-rosinstall-generator
