@@ -136,8 +136,8 @@ runcmd:
   # Initialize rosdep (with proxy)
   rosdep init || true
   
-  # Update rosdep as pi user (with proxy)
-  sudo -u pi sh -c 'export https_proxy=http://192.168.3.121:7890 && rosdep update'
+  # Update rosdep as pi user (preserve environment with -E)
+  sudo -E -u pi rosdep update
 
 swap:
   filename: /swapfile
