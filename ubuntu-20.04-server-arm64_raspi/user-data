@@ -31,6 +31,9 @@ chpasswd:
 ## to make your machine reachable by the .local domain
 hostname: pi_8gb
 
+## Set timezone
+timezone: Asia/Shanghai
+
 ## Set up the keyboard layout. See localectl(1), in particular the various
 ## list-x11-* sub-commands, to determine the available models, layouts,
 ## variants, and options
@@ -60,6 +63,8 @@ users:
     shell: /bin/bash
     ssh_authorized_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoam4ly6sQi7CGmHwqKRC1CGDLj4LZ/fXjKdvJVrqo5 wsxq2@WSXQ2-2"
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC496HRYb96UezCRwgXywVgMEbqWFtibNpt3SW0Go/ARFxdHRCzs+XtckrHGHBA7F+OU5+sa+0iBnPnW40oIQ6ysL52gusqCslqvtGnxVsRGgAEKAsc14RCZ/2gFC9YSGqdX2VU2LUcdCrq3NOKHQZyldT84yD8NWGuLSkv4Q7Mc0Y8U/KyHVoHRhIW+7/qFx5fyg8DimRMe1DuTGRk6e5Bq5S5vkI3kkj6Z2XC24JN7FYetj7CcxLoa3CI9lqh2rpk3/rpjVE8QC6Qhcs6D96MoapQiiIaqDc7z5X2IKO00gahablcZH8AGM+6WG6oqDxTty8rR2bCyH65CMUDP0CtMJgz0XCGR/z35c6W90cikX9IkI9hZXJoyZtKuhis4YTvKW/qpXIj6dsb0ZTMzZqhg6v8yE4rFnHwn5tugzDhZyMu27r7Bix6msjmBOwq4yhbB8H7O+7YGiWQKaeOJU9AYJFMZe6Feabt7R155ddG1/92xUyVy7XpXCpXc45KJ5s= wsxq2@wsxq2-2"
+
 #- default
 #- name: robot
 #  gecos: Mr. Robot
@@ -72,6 +77,10 @@ users:
 ## Update apt database and upgrade packages on first boot
 package_update: true
 package_upgrade: true
+
+## Configure APT proxy (optional, uncomment and modify if needed)
+# apt:
+#   proxy: http://192.168.3.121:7890
 
 ## Install additional packages on first boot
 packages:
@@ -110,8 +119,8 @@ packages:
 
 ## Run arbitrary commands at rc.local like time
 runcmd:
-- [ curl, -sSL, 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key', -o, /usr/share/keyrings/ros-archive-keyring.gpg ]
-- [ sh, -c, "echo 'deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main' > /etc/apt/sources.list.d/ros-latest.list" ]
+- [ sh, -c, "https_proxy=http://192.168.3.121:7890 curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg" ]
+- [ sh, -c, 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros-latest.list' ]
 - [ apt-get, update ]
 - [ sh, -c, "rosdep init || true" ]
 - [ sudo, -u, pi, sh, -c, 'rosdep update']
