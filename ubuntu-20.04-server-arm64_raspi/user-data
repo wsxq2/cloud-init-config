@@ -121,8 +121,20 @@ packages:
 ## Run arbitrary commands at rc.local like time
 runcmd:
 - |
+  # Wait for network to be ready (max 300 seconds)
+  echo "Waiting for network connectivity..."
+  for i in {1..60}; do
+    if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
+      echo "Network is ready!"
+      break
+    fi
+    echo "Attempt $i/60: Network not ready, waiting..."
+    sleep 5
+  done
+  
   # Set proxy for all commands
   export https_proxy=http://192.168.3.121:7890
+  export http_proxy=http://192.168.3.121:7890
   
   # Download ROS GPG key
   curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg
