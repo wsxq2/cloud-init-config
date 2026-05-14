@@ -88,7 +88,7 @@ packages:
 - curl
 - gnupg2
 - lsb-release
-- ros-noetic-desktop
+- ros-noetic-base
 - python3-rosdep
 - python3-rosinstall
 - python3-rosinstall-generator
@@ -120,11 +120,24 @@ packages:
 
 ## Run arbitrary commands at rc.local like time
 runcmd:
-- [ sh, -c, "https_proxy=http://192.168.3.121:7890 curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg" ]
-- [ sh, -c, 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' ]
-- [ apt-get, update ]
-- [ sh, -c, "rosdep init || true" ]
-- [ sudo, -u, pi, sh, -c, 'rosdep update']
+- |
+  # Set proxy for all commands
+  export https_proxy=http://192.168.3.121:7890
+  
+  # Download ROS GPG key
+  curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg
+  
+  # Add ROS repository
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
+  
+  # Update package list
+  apt-get update
+  
+  # Initialize rosdep (with proxy)
+  rosdep init || true
+  
+  # Update rosdep as pi user (with proxy)
+  sudo -u pi sh -c 'export https_proxy=http://192.168.3.121:7890 && rosdep update'
 
 swap:
   filename: /swapfile
