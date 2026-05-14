@@ -29,7 +29,7 @@ chpasswd:
 ## setting the hostname here will not make the machine reachable by this name.
 ## You may also wish to install avahi-daemon (see the "packages:" key below)
 ## to make your machine reachable by the .local domain
-hostname: pi_8gb
+hostname: pi8gb
 
 ## Set timezone
 timezone: Asia/Shanghai
@@ -120,7 +120,7 @@ packages:
 ## Run arbitrary commands at rc.local like time
 runcmd:
 - [ sh, -c, "https_proxy=http://192.168.3.121:7890 curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg" ]
-- [ sh, -c, 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu focal main" > /etc/apt/sources.list.d/ros-latest.list' ]
+- [ sh, -c, 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' ]
 - [ apt-get, update ]
 - [ sh, -c, "rosdep init || true" ]
 - [ sudo, -u, pi, sh, -c, 'rosdep update']
