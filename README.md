@@ -6,6 +6,4 @@
 
 需要注意的是，应该在刚烧录完成后首次启动前执行上述步骤才会生效，如果已经启动过，则需要执行 `cloud-init clean --logs --reboot` 后才会生效，日志可在 `/var/log/cloud-init*` 找到。可通过 `cloud-init status --long` 查看当前状态。
 
-在 `ubuntu-20.04-server-arm64_raspi/user-data` 中会自动安装 ROS1 noetic，总耗时约 30 分钟。
-
 温馨提示：对于树莓派 4B，ubuntu 20.04 的镜像因为已经过时无法在 Raspberry Pi Imager 中找到，需要从 [Ubuntu 官网](https://canonical-ubuntu-hardware-support.readthedocs-hosted.com/boards/how-to/ubuntu_supported/raspberry-pi/) 下载 pre-installed image。由于树莓派性能有限，建议下载 server 版。

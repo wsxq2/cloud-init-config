@@ -28,11 +28,11 @@ version: 2
 ethernets:
   eth0:
     dhcp4: true
-    optional: false  # Require ethernet for initial setup (plugin cable for first boot)
+    optional: true
 wifis:
   wlan0:
     dhcp4: true
-    optional: true  # WiFi as secondary/fallback connection
+    optional: true
     access-points:
       xinshike:
         password: "xskjqr123"

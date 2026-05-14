@@ -83,17 +83,8 @@ package_upgrade: true
 #   proxy: http://192.168.3.121:7890
 
 ## Install additional packages on first boot
-packages:
-- eatmydata
-- curl
-- gnupg2
-- lsb-release
-- ros-noetic-ros-base
-- python3-rosdep
-- python3-rosinstall
-- python3-rosinstall-generator
-- python3-wstool
-- build-essential
+# packages:
+# - curl
 
 ## Write arbitrary files to the file-system (including binaries!)
 #write_files:
@@ -119,37 +110,9 @@ packages:
 #  permissions: '0644'
 
 ## Run arbitrary commands at rc.local like time
-runcmd:
-- |
-  # Wait for network to be ready (max 300 seconds)
-  echo "Waiting for network connectivity..."
-  for i in {1..60}; do
-    if ping -c 1 -W 2 8.8.8.8 >/dev/null 2>&1; then
-      echo "Network is ready!"
-      break
-    fi
-    echo "Attempt $i/60: Network not ready, waiting..."
-    sleep 5
-  done
-  
-  # Set proxy for all commands
-  export https_proxy=http://192.168.3.121:7890
-  export http_proxy=http://192.168.3.121:7890
-  
-  # Download ROS GPG key
-  curl -sSL 'https://raw.githubusercontent.com/ros/rosdistro/master/ros.key' -o /usr/share/keyrings/ros-archive-keyring.gpg
-  
-  # Add ROS repository
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
-  
-  # Update package list
-  apt-get update
-  
-  # Initialize rosdep (with proxy)
-  rosdep init || true
-  
-  # Update rosdep as pi user (preserve environment with -E)
-  sudo -E -u pi rosdep update
+# runcmd:
+# - |
+#   echo "Hello the world!"
 
 swap:
   filename: /swapfile
