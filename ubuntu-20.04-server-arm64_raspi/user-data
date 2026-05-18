@@ -29,7 +29,7 @@ chpasswd:
 ## setting the hostname here will not make the machine reachable by this name.
 ## You may also wish to install avahi-daemon (see the "packages:" key below)
 ## to make your machine reachable by the .local domain
-hostname: pi8gb
+hostname: pi4b-ros1
 
 ## Set timezone
 timezone: Asia/Shanghai
@@ -110,9 +110,9 @@ package_update: true
 #  permissions: '0644'
 
 ## Run arbitrary commands at rc.local like time
-# runcmd:
-# - |
-#   echo "Hello the world!"
+runcmd:
+- |
+  apt-get purge -y unattended-upgrades
 
 swap:
   filename: /swapfile
