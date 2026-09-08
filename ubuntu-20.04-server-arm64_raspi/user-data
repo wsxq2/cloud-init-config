@@ -78,6 +78,14 @@ users:
 package_update: true
 # package_upgrade: true  # Disabled to speed up first boot (snap refresh is slow)
 
+write_files:
+  - path: /etc/apt/apt.conf.d/99no-recommends
+    owner: root:root
+    permissions: '0644'
+    content: |
+      APT::Install-Recommends "false";
+      APT::Install-Suggests "false";
+
 ## Configure APT proxy (optional, uncomment and modify if needed)
 # apt:
 #   proxy: http://192.168.3.121:7890
